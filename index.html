@@ -1,36 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AWS DevOps WebApp</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse — team activity, shipped automatically</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <div class="container">
+<div class="grid-bg"></div>
 
-        <h1>AWS DevOps WebApp 🚀</h1>
+<header>
+  <nav>
+    <div class="logo"><span class="logo-dot"></span>pulse</div>
+    <div class="nav-links">
+      <a href="#pipeline">Pipeline</a>
+      <a href="#features">Features</a>
+      <a href="#activity">Activity</a>
+      <a href="#stack">Stack</a>
+    </div>
+    <a class="nav-cta" href="#pipeline">view build →</a>
+  </nav>
+</header>
 
-        <p>End-to-End DevOps Automation</p>
+<main class="wrap">
 
-        <div class="card">
-
-            <h2>CI/CD Deployment Successful</h2>
-
-            <p>
-                This website is automatically deployed using
-                GitHub Actions, Amazon S3 and CloudFront.
-            </p>
-
-        </div>
-
+  <section class="hero" id="pipeline">
+    <div class="eyebrow">devops-webapp · production</div>
+    <h1>Every commit ships<br>itself, <em>automatically</em>.</h1>
+    <p class="hero-sub">Pulse turns a push into a deployed, notified, verified release — no manual builds, no waiting on Slack for status, no midnight redeploys.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#features">See how it works</a>
+      <a class="btn btn-ghost" href="#activity">Read the build log</a>
     </div>
 
-</body>
+    <div class="pipeline-card">
+      <div class="pipeline-head">
+        <span><span class="repo">main</span> — 4f9a2c1 · "fix: navbar overflow on mobile"</span>
+        <span class="status-pill deploying" id="statusPill"><span class="dot"></span><span id="statusText">building</span></span>
+      </div>
 
+      <div class="pipeline-track">
+        <div class="pipeline-line"><div class="pipeline-line-fill" id="lineFill"></div></div>
+        <div class="stage" data-stage="0"><div class="stage-node">⇪</div><div class="stage-label">Commit</div></div>
+        <div class="stage" data-stage="1"><div class="stage-node">⚙</div><div class="stage-label">Build</div></div>
+        <div class="stage" data-stage="2"><div class="stage-node">✓</div><div class="stage-label">Test</div></div>
+        <div class="stage" data-stage="3"><div class="stage-node">◈</div><div class="stage-label">Notify</div></div>
+        <div class="stage" data-stage="4"><div class="stage-node">▲</div><div class="stage-label">Deploy</div></div>
+      </div>
+
+      <div class="pipeline-log" id="pipelineLog">
+        <div class="line">Waiting for pipeline to start<span class="cursor"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="section-head">
+      <div class="section-label">Model 1 → Model 2</div>
+      <h2>Three systems, one push.</h2>
+      <p class="section-sub">Pulse wires version control, continuous delivery, and team notifications into a single event: <code>git push</code>.</p>
+    </div>
+    <div class="card-grid">
+      <div class="feature-card">
+        <div class="feature-icon ci">⚙</div>
+        <h3>Continuous Integration</h3>
+        <p>Every push triggers a GitHub Actions run — checkout, install, build, and test — so broken code never reaches main unnoticed.</p>
+        <div class="feature-meta">.github/workflows/ci.yml</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon chatops">◈</div>
+        <h3>ChatOps Alerts</h3>
+        <p>An incoming webhook posts build status straight to <strong>#ci-cd-alerts</strong> — success or failure, the whole team sees it in seconds.</p>
+        <div class="feature-meta">Slack · Microsoft Teams</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon cd">▲</div>
+        <h3>Static Deployment</h3>
+        <p>Netlify and Vercel watch the repo directly — every merge to main becomes a live, versioned deployment with its own preview URL.</p>
+        <div class="feature-meta">Auto Deploy on Commit</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="activity">
+    <div class="section-head">
+      <div class="section-label">Live feed</div>
+      <h2>What the team sees.</h2>
+      <p class="section-sub">The same log a teammate would watch scroll by after a push — pulled straight from the pipeline above.</p>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span></span><span></span><span></span>
+        <span class="terminal-title">#ci-cd-alerts</span>
+      </div>
+      <div class="terminal-body" id="terminalBody"></div>
+    </div>
+  </section>
+
+  <section id="metrics-section">
+    <div class="metrics">
+      <div class="metric"><div class="metric-num" data-target="128" id="m1">0</div><div class="metric-label">DEPLOYS THIS MONTH</div></div>
+      <div class="metric"><div class="metric-num" data-target="99" id="m2">0</div><div class="metric-label">BUILD SUCCESS RATE %</div></div>
+      <div class="metric"><div class="metric-num" data-target="47" id="m3">0</div><div class="metric-label">AVG DEPLOY TIME (S)</div></div>
+      <div class="metric"><div class="metric-num" data-target="6" id="m4">0</div><div class="metric-label">ACTIVE WEBHOOKS</div></div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="section-head">
+      <div class="section-label">Under the hood</div>
+      <h2>Built on tools you already trust.</h2>
+    </div>
+    <div class="stack-strip">
+      <span class="stack-chip">Git</span>
+      <span class="stack-chip">GitHub Actions</span>
+      <span class="stack-chip">Slack Webhooks</span>
+      <span class="stack-chip">Microsoft Teams</span>
+      <span class="stack-chip">Netlify</span>
+      <span class="stack-chip">Vercel</span>
+      <span class="stack-chip">VS Code</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div class="logo"><span class="logo-dot"></span>pulse</div>
+    <span>devops-webapp · deployed via CI/CD · built for the DevOps Virtual Lab</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
 </html>
