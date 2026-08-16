@@ -25,3 +25,19 @@ jobs:
           test -f index.html
           test -f style.css
           echo "Website validation successful!"
+          
+      - name: Slack Success Notification
+        if: success()
+        run: |
+          curl -X POST \
+            -H 'Content-type: application/json' \
+            --data '{"text":"✅ CI/CD Pipeline SUCCESS - devops-webapp"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
+            
+      - name: Slack Failure Notification
+        if: failure()
+        run: |
+          curl -X POST \
+            -H 'Content-type: application/json' \
+            --data '{"text":"❌ CI/CD Pipeline FAILED - devops-webapp"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }}
