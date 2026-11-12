@@ -1,0 +1,15 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+.kube/
+__pycache__/
+awscliv2.zip
+aws/
+awscliv2.zip
+terraform/.terraform/

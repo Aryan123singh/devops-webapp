@@ -1,0 +1,28 @@
+---
+- name: Configure Docker for VLE8 Blue-Green Deployment
+  hosts: local
+  become: yes
+
+  tasks:
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Check Docker version
+      ansible.builtin.command: docker --version
+      register: docker_version
+      changed_when: false
+
+    - name: Display Docker version
+      ansible.builtin.debug:
+        msg: "{{ docker_version.stdout }}"
+
+    - name: Verify Docker configuration
+      ansible.builtin.command: docker info
+      changed_when: false
+
+    - name: Display success message
+      ansible.builtin.debug:
+        msg: "Docker is configured and running successfully."
