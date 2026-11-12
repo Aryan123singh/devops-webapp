@@ -38,15 +38,19 @@ pipeline {
         stage('Import Images into K3s') {
             steps {
                 echo 'Importing Docker images into K3s containerd...'
-                sh 'docker save myapp:blue | sudo k3s ctr images import -'
-                sh 'docker save myapp:green | sudo k3s ctr images import -'
+
+                sh 'docker save myapp:blue | sudo -n /usr/local/bin/k3s ctr images import -'
+
+                sh 'docker save myapp:green | sudo -n /usr/local/bin/k3s ctr images import -'
             }
         }
 
         stage('Deploy Green') {
             steps {
                 echo 'Deploying Green environment...'
+
                 sh 'kubectl apply -f k8s/deployment-green.yaml'
+
                 sh 'kubectl rollout status deployment/green-deployment --timeout=120s'
             }
         }
@@ -61,6 +65,7 @@ pipeline {
         stage('Switch Traffic to Green') {
             steps {
                 echo 'Switching production traffic to Green...'
+
                 sh """
                     kubectl patch service myapp-service \
                     -p '{"spec":{"selector":{"app":"myapp","color":"green"}}}'
@@ -71,7 +76,9 @@ pipeline {
         stage('Verify Green') {
             steps {
                 echo 'Verifying Green deployment...'
+
                 sh 'kubectl get endpoints myapp-service'
+
                 sh 'curl -fsS http://localhost:30080'
             }
         }
